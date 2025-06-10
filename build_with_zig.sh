@@ -515,7 +515,7 @@ case "$TARGET" in
         meson_options+=" -Dvalgrind=disabled"
         meson_options+=" -Dcairo-tests=disabled"
         meson_options+=" -Dudev=false"
-        meson_options+=" -Dfreedreno-kgsl=true"
+        meson_options+=" -Dfreedreno-kgsl=false"
         ;;
     aarch64-linux-gnu|arm-linux-gnueabihf|arm-linux-gnu)
         # ARM Linux - enable ARM SoC and PCIe GPU drivers
