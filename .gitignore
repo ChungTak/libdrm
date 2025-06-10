@@ -1,0 +1,4 @@
+cross-build.txt
+libdrm-*
+libdrm_install
+libdrm_build
