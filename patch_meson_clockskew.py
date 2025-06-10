@@ -58,20 +58,23 @@ def patch_meson():
                             lines = content.split('\n')
                             modified = False
                             for i, line in enumerate(lines):
-                                if 'Clock skew detected' in line and 'raise' in line:
+                                # 跳过已经被修补过的行
+                                if 'PATCHED: Skip clock skew check' in line:
+                                    continue
+                                elif 'Clock skew detected' in line and 'raise' in line:
                                     # 获取缩进
                                     indent = len(line) - len(line.lstrip())
                                     # 替换为 pass 语句，保持相同缩进
                                     lines[i] = ' ' * indent + f"pass  # PATCHED: Skip clock skew check - {line.strip()}"
                                     modified = True
-                                    print(f"Patched line: {line.strip()}")
+                                    print(f"Patched line: {lines[i]}")
                                 elif 'raise MesonException' in line and 'Clock skew' in line:
                                     # 获取缩进
                                     indent = len(line) - len(line.lstrip())
                                     # 替换为 pass 语句，保持相同缩进
                                     lines[i] = ' ' * indent + f"pass  # PATCHED: Skip clock skew check - {line.strip()}"
                                     modified = True
-                                    print(f"Patched line: {line.strip()}")
+                                    print(f"Patched line: {lines[i]}")
                             
                             if modified:
                                 # 写回文件
