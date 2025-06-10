@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Rockchip RGA Build Validation Script
+# LIBDRM Build Validation Script
 # This script validates the build output to ensure all required files are present
 
 set -e
@@ -53,23 +53,8 @@ if [ "$HEADER_COUNT" -eq 0 ]; then
 fi
 echo "✓ Found $HEADER_COUNT header files"
 
-# Check for specific RGA header files
-echo "Checking for critical RGA header files..."
-CRITICAL_HEADERS=("rga.h" "RgaApi.h" "RockchipRga.h")
-for header in "${CRITICAL_HEADERS[@]}"; do
-    if [ -f "$OUTPUT_DIR/include/$header" ]; then
-        echo "✓ Found critical header: $header"
-    else
-        echo "WARNING: Missing critical header: $header"
-    fi
-done
 
-# Check for im2d API headers (if present)
-if [ -d "$OUTPUT_DIR/include/im2d_api" ] || find "$OUTPUT_DIR/include" -name "im2d*.h" -print -quit | grep -q .; then
-    echo "✓ Found im2d API headers"
-else
-    echo "- im2d API headers not found (may be expected for some builds)"
-fi
+
 
 # Check for library files
 echo "Checking for library files..."
@@ -94,14 +79,7 @@ if [ "$LIB_COUNT" -eq 0 ]; then
 fi
 echo "✓ Found $LIB_COUNT library files"
 
-# Check for specific RGA library files
-echo "Checking for RGA library files..."
-if find "$OUTPUT_DIR/lib" -name "*rga*" -print -quit | grep -q .; then
-    echo "✓ Found RGA library files:"
-    find "$OUTPUT_DIR/lib" -name "*rga*" | head -5
-else
-    echo "WARNING: No files with 'rga' in name found, but other libraries are present"
-fi
+
 
 # List all files for debugging
 echo "Build output contents:"

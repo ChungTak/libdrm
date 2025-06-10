@@ -52,14 +52,20 @@ jobs:
       - name: Set release notes
         id: set-release-notes
         run: |
-          cat << 'EOF' > release_notes.md
+          # Get current date for release notes
+          CURRENT_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          BUILD_TYPE="${{ github.event.inputs.enable_debug == 'true' && 'Debug' || 'Release' }}"
+          SIZE_OPT="${{ github.event.inputs.optimize_size == 'true' && 'Enabled' || 'Disabled' }}"
+          
+          # Create release notes with proper variable substitution
+          cat << EOF > release_notes.md
           # libdrm Release ${{ github.event.inputs.version_tag }}
           
           ## Build Information
           - **Version**: ${{ github.event.inputs.version_tag }}
-          - **Build Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          - **Build Type**: ${{ github.event.inputs.enable_debug == 'true' && 'Debug' || 'Release' }}
-          - **Size Optimization**: ${{ github.event.inputs.optimize_size == 'true' && 'Enabled' || 'Disabled' }}
+          - **Build Date**: ${CURRENT_DATE}
+          - **Build Type**: ${BUILD_TYPE}
+          - **Size Optimization**: ${SIZE_OPT}
           
           ## Supported Platforms
           - Linux (x86_64, aarch64, arm)
@@ -70,19 +76,24 @@ jobs:
           
           ## Package Contents
           Each platform package includes:
-          - Header files (`include/`)
-          - Static and shared libraries (`lib/`)
-          - pkg-config files (`pkgconfig/`)
-          - Build information (`BUILD_INFO.txt`)
-          - Checksums (`CHECKSUMS.txt`)
+          - Header files (\`include/\`)
+          - Static and shared libraries (\`lib/\`)
+          - pkg-config files (\`pkgconfig/\`)
+          - Build information (\`BUILD_INFO.txt\`)
+          - Checksums (\`CHECKSUMS.txt\`)
           
           ## Installation
           1. Download the appropriate package for your target platform
-          2. Extract the archive: `tar -xzf libdrm-*.tar.gz`
+          2. Extract the archive: \`tar -xzf libdrm-*.tar.gz\`
           3. Install to your preferred location or use pkg-config for linking
           
           ## Verification
           Each package includes SHA256 checksums for verification.
+          
+          ## Source Information
+          - Repository: https://github.com/ChungTak/libdrm
+          - Branch: main
+          - Built with: Zig 0.14.0 + Meson build system
           EOF
           
           RELEASE_NOTES=$(cat release_notes.md)
@@ -403,7 +414,7 @@ jobs:
           ./.github/scripts/validate_build.sh "${{ matrix.target }}" "$OUTPUT_DIR"
 
           # Packaging
-          RELEASE_NAME="rockchip-rga-${{ needs.prepare.outputs.version_tag }}-${{ matrix.target }}"
+          RELEASE_NAME="libdrm-${{ needs.prepare.outputs.version_tag }}-${{ matrix.target }}"
           mkdir -p release/artifacts
           
           # Copy installation directory
@@ -457,7 +468,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-artifact-${{ matrix.target }}
-          path: release/artifacts/rockchip-rga-${{ needs.prepare.outputs.version_tag }}-${{ matrix.target }}.tar.gz
+          path: release/artifacts/libdrm-${{ needs.prepare.outputs.version_tag }}-${{ matrix.target }}.tar.gz
           overwrite: true
           include-hidden-files: false
           retention-days: 7
