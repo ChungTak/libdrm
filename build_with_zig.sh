@@ -475,6 +475,27 @@ else
 fi
 
 case "$TARGET" in
+    x86_64-linux-*|x86-linux-*)
+        # x86 Linux - enable all desktop GPU drivers
+        meson_options=""
+        meson_options+=" -Dintel=auto"
+        meson_options+=" -Dradeon=auto"
+        meson_options+=" -Damdgpu=auto"
+        meson_options+=" -Dnouveau=auto"
+        meson_options+=" -Dvmwgfx=auto"
+        meson_options+=" -Domap=disabled"
+        meson_options+=" -Dexynos=disabled"
+        meson_options+=" -Dfreedreno=disabled"
+        meson_options+=" -Dtegra=disabled"
+        meson_options+=" -Dvc4=disabled"
+        meson_options+=" -Detnaviv=disabled"
+        meson_options+=" $test_options"
+        meson_options+=" -Dman-pages=disabled"
+        meson_options+=" -Dvalgrind=disabled"
+        meson_options+=" -Dcairo-tests=disabled"
+        meson_options+=" -Dudev=true"
+        meson_options+=" -Dfreedreno-kgsl=false"
+        ;;
     *android*|*harmonyos*)
         # Mobile/embedded platforms - focus on mobile GPU drivers
         meson_options=""
@@ -510,27 +531,6 @@ case "$TARGET" in
         meson_options+=" -Dtegra=auto"
         meson_options+=" -Dvc4=auto"
         meson_options+=" -Detnaviv=auto"
-        meson_options+=" $test_options"
-        meson_options+=" -Dman-pages=disabled"
-        meson_options+=" -Dvalgrind=disabled"
-        meson_options+=" -Dcairo-tests=disabled"
-        meson_options+=" -Dudev=true"
-        meson_options+=" -Dfreedreno-kgsl=false"
-        ;;
-    x86_64-linux-gnu|x86-linux-gnu)
-        # x86 Linux - enable all desktop GPU drivers
-        meson_options=""
-        meson_options+=" -Dintel=auto"
-        meson_options+=" -Dradeon=auto"
-        meson_options+=" -Damdgpu=auto"
-        meson_options+=" -Dnouveau=auto"
-        meson_options+=" -Dvmwgfx=auto"
-        meson_options+=" -Domap=disabled"
-        meson_options+=" -Dexynos=disabled"
-        meson_options+=" -Dfreedreno=disabled"
-        meson_options+=" -Dtegra=disabled"
-        meson_options+=" -Dvc4=disabled"
-        meson_options+=" -Detnaviv=disabled"
         meson_options+=" $test_options"
         meson_options+=" -Dman-pages=disabled"
         meson_options+=" -Dvalgrind=disabled"
