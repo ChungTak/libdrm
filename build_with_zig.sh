@@ -175,7 +175,7 @@ echo "✅ Clock skew 修复完成"
 
 if [ "$OPTIMIZE_SIZE" = true ]; then
     # 大小优化标志
-    ZIG_OPTIMIZE_FLAGS="-Os -DNDEBUG -ffunction-sections -fdata-sections -fvisibility=hidden $ARCH_DEFINES"
+    ZIG_OPTIMIZE_FLAGS="-Os -DNDEBUG -ffunction-sections -fdata-sections $ARCH_DEFINES"
     export LDFLAGS="-Wl,--gc-sections -Wl,--strip-all"
 else
     ZIG_OPTIMIZE_FLAGS="-O2 -DNDEBUG $ARCH_DEFINES"
@@ -283,7 +283,7 @@ TARGET_ENDIAN="${TARGET_INFO[3]}"
 LDFLAGS_OPTIMIZE=""
 if [ "$OPTIMIZE_SIZE" = true ]; then
     # 大小优化标志
-    ZIG_OPTIMIZE_FLAGS="-Os -DNDEBUG -ffunction-sections -fdata-sections -fvisibility=hidden $ARCH_DEFINES"
+    ZIG_OPTIMIZE_FLAGS="-Os -DNDEBUG -ffunction-sections -fdata-sections $ARCH_DEFINES"
     export LDFLAGS="-Wl,--gc-sections -Wl,--strip-all"
     LDFLAGS_OPTIMIZE="-Wl,--gc-sections -Wl,--strip-all"
 else
