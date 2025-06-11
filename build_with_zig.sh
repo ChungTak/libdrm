@@ -667,7 +667,7 @@ ninja -C $BUILD_DIR install
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}安装成功!${NC}"
     # "修改 pkg-config 文件路径..."
-    find "${INSTALL_DIR}/lib/pkgconfig" -name "*.pc" -exec sed -i "s|^prefix=.*|prefix=/usr|g" {} \;    
+    #find "${INSTALL_DIR}/lib/pkgconfig" -name "*.pc" -exec sed -i "s|^prefix=.*|prefix=/usr|g" {} \;    
     
     # 如果启用了大小优化，进行额外的压缩处理
     if [ "$OPTIMIZE_SIZE" = true ]; then
