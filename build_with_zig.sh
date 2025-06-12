@@ -216,6 +216,7 @@ if [ ! -f "$LIBDRM_SOURCE_DIR/meson.build" ]; then
 fi
 
 # 创建安装目录
+rm -rf "$INSTALL_DIR"
 mkdir -p "$INSTALL_DIR"
 
 # 创建LIBDRM构建目录（每次都清理，避免 Meson 缓存污染）
