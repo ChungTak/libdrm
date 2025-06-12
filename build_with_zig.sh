@@ -91,6 +91,20 @@ BUILD_TYPE="release"
 INSTALL_DIR="$PROJECT_ROOT_DIR/libdrm_install/Release/${TARGET}"
 BUILD_DIR="$PROJECT_ROOT_DIR/libdrm_build/${TARGET}"
 
+
+# 处理清理动作
+if [ "$ACTION" = "clean" ]; then
+    echo -e "${YELLOW}清理构建目录和缓存...${NC}"
+    rm -rf "$PROJECT_ROOT_DIR/libdrm_build"
+    echo -e "${GREEN}构建目录已清理!${NC}"
+    exit 0
+elif [ "$ACTION" = "clean-dist" ]; then
+    echo -e "${YELLOW}清理构建目录和安装目录...${NC}"
+    rm -rf "$PROJECT_ROOT_DIR/libdrm_build"
+    rm -rf "$PROJECT_ROOT_DIR/libdrm_install"
+    echo -e "${GREEN}构建目录和安装目录已清理!${NC}"
+    exit 0
+fi
 # 函数：下载并解压 libdrm 源码
 download_libdrm() {
     local version="$1"
@@ -182,19 +196,6 @@ else
     export LDFLAGS=""
 fi
 
-# 处理清理动作
-if [ "$ACTION" = "clean" ]; then
-    echo -e "${YELLOW}清理构建目录和缓存...${NC}"
-    rm -rf "$PROJECT_ROOT_DIR/libdrm_build"
-    echo -e "${GREEN}构建目录已清理!${NC}"
-    exit 0
-elif [ "$ACTION" = "clean-dist" ]; then
-    echo -e "${YELLOW}清理构建目录和安装目录...${NC}"
-    rm -rf "$PROJECT_ROOT_DIR/libdrm_build"
-    rm -rf "$PROJECT_ROOT_DIR/libdrm_install"
-    echo -e "${GREEN}构建目录和安装目录已清理!${NC}"
-    exit 0
-fi
 
 # 检查Zig是否安装
 if ! command -v zig &> /dev/null; then
